@@ -1,0 +1,39 @@
+---
+title: "Marriages vs Divorces in Brussels"
+author: "Oliver Hofkens"
+date: "7/8/2017"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Introduction
+
+In this small presentation I will show the evolution of marriages vs divorces in
+the city of Brussels.
+
+The data was retrieved from [Open Data Brussels](https://opendata.brussel.be/explore/dataset/demografische-statistieken/information/?sort=annee&dataChart=eyJxdWVyaWVzIjpbeyJjb25maWciOnsiZGF0YXNldCI6ImRlbW9ncmFmaXNjaGUtc3RhdGlzdGlla2VuIiwib3B0aW9ucyI6eyJzb3J0IjoiYW5uZWUifX0sImNoYXJ0cyI6W3sidHlwZSI6ImxpbmUiLCJmdW5jIjoiQVZHIiwieUF4aXMiOiJkZWNsYXJhdGlvbnNfZGVfbmFpc3NhbmNlIiwic2NpZW50aWZpY0Rpc3BsYXkiOnRydWUsImNvbG9yIjoiIzY2YzJhNSJ9XSwieEF4aXMiOiJhbm5lZSIsIm1heHBvaW50cyI6IiIsInRpbWVzY2FsZSI6InllYXIiLCJzb3J0IjoiIn1dfQ%3D%3D) on 08 july 2017.
+
+```{r, echo=FALSE}
+demographics = read.csv("https://opendata.brussel.be/explore/dataset/demografische-statistieken/download/?format=csv&timezone=Europe/Berlin&use_labels_for_header=true", sep=";")
+```
+
+## Plot
+
+```{r, message=FALSE, warning=FALSE}
+library(plotly)
+library(ggplot2)
+```
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+g = ggplot(demographics, aes(x = Jaar)) +
+    geom_line(aes(y = Gevierde.huwelijken, color = "Marriages")) +
+    geom_line(aes(y = Echtscheidingen, color = "Divorces")) +
+    labs(x = "Year", y = "Count", title = "Marriages vs Divorces in Brussels")
+
+g = ggplotly(g)
+style(g, hoverinfo = "x+y")
+```
+
